@@ -12,6 +12,7 @@ func SetupCatEndpoints(eng *gin.Engine) {
 	c := NewCatController() // is it gonna get cleaned by the GC?
 	eng.GET("/all-cats", c.GetCats)
 	eng.GET("/paginated-cats", c.GetCatsPaged)
+	eng.GET("/cat/:id", c.GetCatProfile)
 }
 
 type CatController struct {
@@ -38,4 +39,17 @@ func (cc CatController) GetCats(c *gin.Context) {
 func (cc CatController) GetCatsPaged(c *gin.Context) {
 	pr := pagination.NewPageRequestFromURL(c)
 	fmt.Println(pr)
+}
+
+func (cc CatController) GetCatProfile(c *gin.Context) {
+	catID := c.Param("id")
+	fmt.Println(catID)
+	cats, err := cc.catService.GetAllCats()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "TODO: create a json error response",
+		})
+	}
+
+	c.JSON(http.StatusOK, cats[0])
 }
