@@ -4,6 +4,7 @@ import (
 	"flag"
 
 	"github.com/SlippyKorny/gin-api-template/internal/cat"
+	"github.com/SlippyKorny/gin-api-template/internal/status"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,4 +26,5 @@ func main() {
 
 func buildHandlers(eng *gin.Engine) {
 	cat.SetupCatEndpoints(eng)
+	status.SetupStatusEndpoints(eng)
 }
